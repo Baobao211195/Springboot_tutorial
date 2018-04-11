@@ -25,32 +25,48 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = CustomerController.class)
 public class CustomerControllerTest {
 
-  @MockBean
-  private CustomerService customerService;
+	@MockBean
+	private CustomerService customerService;
 
-  @Autowired
-  private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-  @Test
-  public void test_customer_can_be_serialized_correctly() throws Exception {
-    Customer customer = new Customer();
-    customer.setBirthDate(LocalDate.of(2018, 4, 10));
-    customer.setFirstName("pv");
-    customer.setLastName("oanh");
-    customer.setStatus(Status.VIP);
+	@Test
+	public void test_customer_can_be_serialized_correctly() throws Exception {
+		Customer customer = new Customer();
+		customer.setBirthDate(LocalDate.of(2018, 4, 10));
+		customer.setFirstName("pv");
+		customer.setLastName("oanh");
+		customer.setStatus(Status.VIP);
 
-    given(customerService.findAllCustomers()).willReturn(Arrays.asList(customer));
-    mockMvc.perform(get("/customers")
-            .accept(MediaType.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk())
-            .andExpect(content().json("[\n" +
-              "  {\n" +
-              "    \"firstName\" : \"pv\",\n" +
-              "    \"lastName\" : \"oanh\",\n" +
-              "    \"status\" : \"VIP\",\n" +
-              "    \"birthDate\" :\"2018-04-10\"\n" +
-              "  }\n" +
-              "]\n"));
-  }
+		given(customerService.findAllCustomers()).willReturn(Arrays.asList(customer));
+		mockMvc.perform(get("/customers")
+				.accept(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isOk())
+				.andExpect(content().json("[\n" +
+						"  {\n" +
+						"    \"firstName\" : \"pv\",\n" +
+						"    \"lastName\" : \"oanh\",\n" +
+						"    \"status\" : \"VIP\",\n" +
+						"    \"birthDate\" :\"2018-04-10\"\n" +
+						"  }\n" +
+						"]\n"));
+	}
+
+	@Test
+	public void createCustomer() throws Exception {
+	}
+
+	@Test
+	public void updateCustomer() throws Exception {
+	}
+
+	@Test
+	public void deleteCustomer() throws Exception {
+	}
+
+	@Test
+	public void getCustomerById() throws Exception {
+	}
 
 }

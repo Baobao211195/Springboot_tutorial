@@ -6,5 +6,13 @@ import java.util.List;
 
 public interface CustomerService {
 
-  public List<Customer> findAllCustomers();
+	List<Customer> findAllCustomers();
+
+	Customer createCustomer(Customer customer) throws Exception;
+
+	Customer updateCustomer(Customer customer, Integer customerId) throws Exception;
+
+	boolean deleteCustomer(Integer customerId) throws Exception;
+
+	Customer getCustomerById(Integer customerId) throws Exception;
 }
