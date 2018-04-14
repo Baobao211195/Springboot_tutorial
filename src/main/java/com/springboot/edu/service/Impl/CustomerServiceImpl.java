@@ -1,12 +1,12 @@
 package com.springboot.edu.service.Impl;
 
 import com.springboot.edu.domain.Customer;
+import com.springboot.edu.exception.ResourcesNotFoundException;
 import com.springboot.edu.service.CustomerService;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<Customer> findAllCustomers() {
-		return Collections.emptyList();
+		return customerList;
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
 				        	return e;
 				        })
 						.findFirst()
-						.orElseThrow(() -> new SQLException("Update is unsuccessful!"));
+						.orElseThrow(ResourcesNotFoundException::new);
 
 		return c;
 	}
@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
 	public boolean deleteCustomer(Integer customerId) throws Exception {
 		boolean deleteFlag = customerList.removeIf(c -> customerId.equals(c.getId()));
 		if(!deleteFlag) {
-			throw new SQLException("Delete is unsuccessful !");
+			throw new ResourcesNotFoundException();
 		}
 		return deleteFlag;
 	}
@@ -59,6 +59,6 @@ public class CustomerServiceImpl implements CustomerService {
 	public Customer getCustomerById(Integer customerId) throws Exception {
 		return customerList.stream().filter(e-> customerId.equals(e.getId()))
 									.findFirst()
-									.orElseThrow(() -> new SQLException("Not found resources!"));
+									.orElseThrow(ResourcesNotFoundException::new);
 	}
 }

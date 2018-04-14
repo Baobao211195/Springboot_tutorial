@@ -1,5 +1,6 @@
 package com.springboot.edu.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.edu.domain.Customer;
 import com.springboot.edu.domain.Status;
 import com.springboot.edu.service.CustomerService;
@@ -14,9 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,6 +31,8 @@ public class CustomerControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	@Autowired private ObjectMapper mapper;
 
 	@Test
 	public void test_customer_can_be_serialized_correctly() throws Exception {
@@ -54,7 +57,30 @@ public class CustomerControllerTest {
 	}
 
 	@Test
-	public void createCustomer() throws Exception {
+	public void test_customer_can_be_create() throws Exception {
+
+		Customer c = new Customer();
+		c.setFirstName("oanh");
+		c.setLastName("pv");
+		c.setBirthDate(LocalDate.of(2018, 4, 10));
+		c.setStatus(Status.VIP);
+
+		given(customerService.createCustomer(c)).willReturn(c);
+
+		String json = mapper.writeValueAsString(c);
+
+		mockMvc.perform(post("/customers")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().json(" {\n" +
+						"    \"firstName\" : \"oanh\",\n" +
+						"    \"lastName\" : \"pv\",\n" +
+						"    \"status\" : \"VIP\",\n" +
+						"    \"birthDate\" :\"2018-04-10\"\n"  +
+						"  }"));
+
 	}
 
 	@Test
