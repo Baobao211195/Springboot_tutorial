@@ -2,10 +2,11 @@ package com.springboot.edu.service.Impl;
 
 import com.springboot.edu.domain.Customer;
 import com.springboot.edu.exception.ResourcesNotFoundException;
+import com.springboot.edu.repository.CustomerRepository;
 import com.springboot.edu.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,11 +15,15 @@ import java.util.UUID;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+	@Autowired
+	private CustomerRepository customerRepository;
+
+
 	public static List<Customer> customerList = new ArrayList<>();
 
 	@Override
 	public List<Customer> findAllCustomers() {
-		return customerList;
+		return customerRepository.findAll();
 	}
 
 	@Override

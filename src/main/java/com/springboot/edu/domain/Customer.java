@@ -1,6 +1,7 @@
 package com.springboot.edu.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.springboot.edu.util.Status;
 import lombok.*;
 
 import java.time.LocalDate;

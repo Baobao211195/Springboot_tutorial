@@ -2,7 +2,7 @@ package com.springboot.edu.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.edu.domain.Customer;
-import com.springboot.edu.domain.Status;
+import com.springboot.edu.util.Status;
 import com.springboot.edu.service.CustomerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import static org.junit.Assert.*;
+
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -58,16 +58,16 @@ public class CustomerControllerTest {
 
 	@Test
 	public void test_customer_can_be_create() throws Exception {
+		Customer c1 = Customer.builder()
+							.firstName("oanh")
+							.lastName("pv")
+							.status(Status.VIP)
+							.birthDate(LocalDate.of(2018, 4, 10))
+							.build();
 
-		Customer c = new Customer();
-		c.setFirstName("oanh");
-		c.setLastName("pv");
-		c.setBirthDate(LocalDate.of(2018, 4, 10));
-		c.setStatus(Status.VIP);
+		given(customerService.createCustomer(c1)).willReturn(c1);
 
-		given(customerService.createCustomer(c)).willReturn(c);
-
-		String json = mapper.writeValueAsString(c);
+		String json = mapper.writeValueAsString(c1);
 
 		mockMvc.perform(post("/customers")
 				.contentType(MediaType.APPLICATION_JSON)

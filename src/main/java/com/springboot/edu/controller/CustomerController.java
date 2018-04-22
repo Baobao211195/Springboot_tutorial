@@ -1,7 +1,6 @@
 package com.springboot.edu.controller;
 
 import com.springboot.edu.domain.Customer;
-import com.springboot.edu.domain.Status;
 import com.springboot.edu.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

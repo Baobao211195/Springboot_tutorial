@@ -1,4 +1,4 @@
-package com.springboot.edu.domain;
+package com.springboot.edu.util;
 
 public enum Status {
 
